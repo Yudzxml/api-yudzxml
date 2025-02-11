@@ -1,6 +1,7 @@
 const axios = require('axios');
 const { fromBuffer } = require('file-type');
 const qs = require('qs');
+const cors = require('cors'); // Impor cors
 
 const tool = ['removebg', 'enhance', 'upscale', 'restore', 'colorize'];
 
@@ -11,9 +12,9 @@ const isImageUrl = (url) => {
 
 const pxpic = {
   upload: async (buffer, mime) => {
-    const fileName = Date.now() + '.' + mime.split('/')[1]; // Menggunakan ekstensi dari mime type
-
+    const fileName = Date.now() + '.' + mime.split('/')[1];
     const folder = "uploads";
+
     const responsej = await axios.post("https://pxpic.com/getSignedUrl", { folder, fileName }, {
       headers: {
         "Content-Type": "application/json",
@@ -40,8 +41,6 @@ const pxpic = {
 
     // Download image
     const response = await axios.get(url, { responseType: 'arraybuffer' });
-
-    // Memeriksa tipe konten
     const contentType = response.headers['content-type'];
     if (!contentType.startsWith('image/')) {
       throw new Error('URL tidak mengarah ke gambar yang valid.');
@@ -50,7 +49,7 @@ const pxpic = {
     const buffer = Buffer.from(response.data);
     const { mime } = await fromBuffer(buffer) || {};
 
-    const imageUrl = await pxpic.upload(buffer, mime); // Upload ke pxpic
+    const imageUrl = await pxpic.upload(buffer, mime);
 
     let data = qs.stringify({
       'imageUrl': imageUrl,
@@ -67,7 +66,7 @@ const pxpic = {
       method: 'POST',
       url: 'https://pxpic.com/callAiFunction',
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Android 10; Mobile; rv:131.0) Gecko/131.0 Firefox/131.0',
+        'User -Agent': 'Mozilla/5.0 (Android 10; Mobile; rv:131.0) Gecko/131.0 Firefox/131.0',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8',
         'Content-Type': 'application/x-www-form-urlencoded',
         'accept-language': 'id-ID'
@@ -84,19 +83,23 @@ const pxpic = {
   }
 }
 
+// Middleware CORS
 module.exports = (req, res) => {
-  const { method } = req;
-  if (method === 'GET') {
-    const { filePath, tools } = req.query; // Mengambil parameter dari query string
-    if (!filePath || !isImageUrl(filePath)) {
-      return res.status(400).json({ error: 'URL tidak valid. Pastikan URL mengarah ke gambar.' });
+  // Gunakan middleware CORS
+  cors()(req, res, () => {
+    const { method } = req;
+    if (method === 'GET') {
+      const { filePath, tools } = req.query; // Mengambil parameter dari query string
+      if (!filePath || !isImageUrl(filePath)) {
+        return res.status(400).json({ error: 'URL tidak valid. Pastikan URL mengarah ke gambar.' });
+      }
+      
+      pxpic.create(filePath, tools)
+        .then(data => res.status(200).json(data))
+        .catch(err => res.status(500).json({ error: err.message }));
+    } else {
+      res.setHeader('Allow', ['GET']);
+      res.status(405).end(`Method ${method} Not Allowed`);
     }
-    
-    pxpic.create(filePath, tools)
-      .then(data => res.status(200).json(data))
-      .catch(err => res.status(500).json({ error: err.message }));
-  } else {
-    res.setHeader('Allow', ['GET']);
-    res.status(405).end(`Method ${method} Not Allowed`);
-  }
+  });
 };
