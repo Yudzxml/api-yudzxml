@@ -8,9 +8,10 @@
   "dependencies": {
     "axios": "^0.21.1",
     "file-type": "^16.5.0",
-    "qs": "^6.10.1"
+    "qs": "^6.10.1",
+    "cors": "^2.8.5"
   },
   "engines": {
-    "node": "22.x"
+    "node": "14.x"
   }
 }
