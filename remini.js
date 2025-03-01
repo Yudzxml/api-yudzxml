@@ -89,12 +89,12 @@ module.exports = (req, res) => {
   cors()(req, res, () => {
     const { method } = req;
     if (method === 'GET') {
-      const { filePath, tools } = req.query; // Mengambil parameter dari query string
-      if (!filePath || !isImageUrl(filePath)) {
+      const { url, tools } = req.query; // Mengambil parameter dari query string
+      if (!url || !isImageUrl(url)) {
         return res.status(400).json({ error: 'URL tidak valid. Pastikan URL mengarah ke gambar.' });
       }
       
-      pxpic.create(filePath, tools)
+      pxpic.create(url, tools) // Mengganti filePath dengan url
         .then(data => res.status(200).json(data))
         .catch(err => res.status(500).json({ error: err.message }));
     } else {
