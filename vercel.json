@@ -2,14 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/pxpic.js",
+      "src": "api/*.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/pxpic",
-      "dest": "api/pxpic.js"
+      "src": "/api/ytmp3",
+      "dest": "api/ytmp3.js"
+    },
+    {
+      "src": "/api/remini",
+      "dest": "api/remini.js"
     }
   ]
 }
