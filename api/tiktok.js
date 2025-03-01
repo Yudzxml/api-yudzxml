@@ -1,4 +1,4 @@
-huconst fetch = require('node-fetch-commonjs');
+const fetch = require('node-fetch-commonjs');
 
 const LoveTik = {
     async dapatkan(url) {
