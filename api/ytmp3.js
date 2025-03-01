@@ -78,4 +78,4 @@ module.exports = (req, res) => {
         res.setHeader('Allow', ['GET']);
         res.status(405).end(`Method ${method} Not Allowed`);
     }
-};Vi
+};
