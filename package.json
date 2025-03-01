@@ -1,7 +1,6 @@
 {
-  "name": "my-api",
+  "name": "api",
   "version": "1.0.0",
-  "main": "api/pxpic.js",
   "scripts": {
     "start": "vercel dev"
   },
