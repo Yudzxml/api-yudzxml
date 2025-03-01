@@ -18,6 +18,10 @@
     {
       "src": "/api/tiktok",
       "dest": "api/tiktok.js"
+    },
+    {
+      "src": "/api/igdl",
+      "dest": "api/igdl.js"
     }
   ]
 }
