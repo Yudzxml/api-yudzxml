@@ -1,4 +1,4 @@
-const fetch = require('node-fetch'); // Pastikan Anda menginstal node-fetch jika belum ada
+const fetch = require('node-fetch-commonjs');
 
 const LoveTik = {
     async dapatkan(url) {
