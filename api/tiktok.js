@@ -1,4 +1,4 @@
-const fetch = require('node-fetch-commonjs');
+huconst fetch = require('node-fetch-commonjs');
 
 const LoveTik = {
     async dapatkan(url) {
@@ -48,7 +48,14 @@ const LoveTik = {
                 return rendered.json();
             }
 
-            return { ...data, ...result };
+            return {
+                "status": 200,
+                "author": "Yudzxml",
+                "data": { 
+                ...data, 
+                ...result 
+            }
+         }
         } catch (error) {
             console.error(error);
             throw new Error('Terjadi kesalahan saat memproses permintaan');
