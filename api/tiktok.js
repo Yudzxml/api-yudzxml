@@ -65,7 +65,7 @@ module.exports = async (req, res) => {
     if (method === 'GET') {
         const { url } = req.query; // Mengambil parameter dari query string
         if (!url) {
-            return res.status(400).json({ error: 'URL tidak valid. Pastikan URL YouTube diberikan.' });
+            return res.status(400).json({ error: 'URL tidak valid. Pastikan URL Yang diberikan Benar!!' });
         }
 
         try {

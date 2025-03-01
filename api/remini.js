@@ -91,7 +91,7 @@ module.exports = (req, res) => {
     if (method === 'GET') {
       const { url, tools } = req.query; // Mengambil parameter dari query string
       if (!url || !isImageUrl(url)) {
-        return res.status(400).json({ error: 'URL tidak valid. Pastikan URL mengarah ke gambar.' });
+        return res.status(400).json({ error: 'URL tidak valid. Pastikan URL Yang diberikan Benar!!' });
       }
       
       pxpic.create(url, tools) // Mengganti filePath dengan url
