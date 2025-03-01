@@ -51,10 +51,7 @@ const LoveTik = {
             return {
                 "status": 200,
                 "author": "Yudzxml",
-                "data": { 
-                ...data, 
-                ...result 
-            }
+                "data": { ...data, ...result }
          }
         } catch (error) {
             console.error(error);
