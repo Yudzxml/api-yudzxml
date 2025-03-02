@@ -57,7 +57,10 @@ async function fetchYouTubeVideoInfo(url, format = 'mp3') {
 }
 
 // Middleware untuk API
-module.exports = (req, res) => {
+module.exports = (req, res) => {  
+res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins
+res.setHeader('Access-Control-Allow-Methods', 'GET'); // Allow GET method
+res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); // Allow specific headers
     const { method } = req;
     if (method === 'GET') {
         const { url, format } = req.query; // Mengambil parameter dari query string
