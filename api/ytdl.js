@@ -153,8 +153,8 @@ const savetube = {
       });
 
       return {
-        status: true,
-        code: 200,
+        status: 200,
+        author: "Yudzxml"
         result: {
           title: decrypted.title || "Tidak diketahui",
           type: format === 'mp3' ? 'audio' : 'video',
