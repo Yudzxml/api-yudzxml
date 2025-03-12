@@ -13,11 +13,13 @@ const checkHost = {
   },
   types: ['ping', 'http', 'tcp', 'udp', 'dns', 'info'],
 
+  // Validasi hostname
   hostname: (host) => {
     const regex = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$|^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     return regex.test(host);
   },
 
+  // Mengambil domain dari URL
   domain: (input) => {
     if (input.startsWith('http://') || input.startsWith('https://')) {
       return new URL(input).hostname;
@@ -25,6 +27,7 @@ const checkHost = {
     return input;
   },
 
+  // Menghasilkan emoji bendera dari kode negara
   flagEmoji: (cc) => {
     const codePoints = cc
       .toUpperCase()
@@ -33,6 +36,7 @@ const checkHost = {
     return String.fromCodePoint(...codePoints);
   },
 
+  // Melakukan permintaan GET
   request: async (endpoint, params = {}) => {
     try {
       const { data } = await axios.get(`${checkHost.api.base}/${endpoint}`, {
@@ -47,6 +51,7 @@ const checkHost = {
     }
   },
 
+  // Mendapatkan informasi IP
   info: async (host) => {
     try {
       const response = await axios.get(`${checkHost.api.base}/ip-info`, {
@@ -87,12 +92,13 @@ const checkHost = {
         infox[provider] = data;
       });
 
-      return { status: true, data: infox };
+      return { status: 200, author: "Yudzxml", data: infox };
     } catch (error) {
       return { status: false, message: `${error.message}` };
     }
   },
 
+  // Mendapatkan hasil pemeriksaan
   results: async (requestId, nodes, tries = 0) => {
     if (!requestId || Object.keys(nodes).length === 0 || tries >= 20) {
       return { status: false, message: "Waduh, nodenya kosong atau enggak terlalu kebanyakan nyoba bree 🤣" };
@@ -131,6 +137,7 @@ const checkHost = {
     }
   },
 
+  // Melakukan pemeriksaan
   check: async (host, type = 'ping', paramek = {}) => {
     if (!host || host.trim() === '') {
       return { status: false, message: 'Lah, hostnya mana bree? 🗿' };
@@ -147,14 +154,14 @@ const checkHost = {
 
     const tipes = type === 'info' ? 'ip-info' : `check-${type}`;
 
-    if (type === 'tcp' || type === 'udp') {
-      if (!paramek.port) {
-        return { status: false, message: `Ebuseet, portnya lupa diisi tuh buat check ${type}.` };
-      }
-    } else if (type === 'dns') {
-      if (!paramek.type) {
-        return { status: false, message: 'Record type buat DNS checknya mana nih bree? Jangan bikin emosi mulu napa 🗿'};
-      }
+    // Validasi port untuk TCP dan UDP
+    if ((type === 'tcp' || type === 'udp') && !paramek.port) {
+      return { status: false, message: `Ebuseet, portnya lupa diisi tuh buat check ${type}.` };
+    }
+
+    // Validasi tipe untuk DNS
+    if (type === 'dns' && !paramek.type) {
+      return { status: false, message: 'Record type buat DNS checknya mana nih bree? Jangan bikin emosi mulu napa 🗿'};
     }
 
     try {
@@ -196,6 +203,7 @@ const checkHost = {
   }
 };
 
+// Ekspresikan API
 module.exports = (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins
   res.setHeader('Access-Control-Allow-Methods', 'GET'); // Allow GET method
@@ -203,7 +211,7 @@ module.exports = (req, res) => {
 
   const { method } = req;
   if (method === 'GET') {
-    const { host, type } = req.query; // Mengambil parameter dari query string
+    const { host, type, port } = req.query; // Mengambil parameter dari query string
     if (!host) {
       return res.status(400).json({ error: 'Host tidak valid. Pastikan host yang diberikan benar.' });
     }
@@ -213,7 +221,17 @@ module.exports = (req, res) => {
       return res.status(400).json({ error: `Tipe tidak valid. Pilih salah satu dari: ${checkHost.types.join(', ')}` });
     }
 
-    checkHost.check(host, type)
+    // Validasi port jika tipe adalah udp
+    if (type === 'udp' && !port) {
+      return res.status(400).json({ error: 'Port tidak valid. Pastikan port yang diberikan untuk tipe UDP.' });
+    }
+
+    // Validasi port jika tipe adalah tcp
+    if (type === 'tcp' && !port) {
+      return res.status(400).json({ error: 'Port tidak valid. Pastikan port yang diberikan untuk tipe TCP.' });
+    }
+
+    checkHost.check(host, type, { port }) // Pass port as a parameter
       .then(data => res.status(200).json(data))
       .catch(err => res.status(500).json({ error: err.message }));
   } else {
