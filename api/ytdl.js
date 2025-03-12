@@ -154,7 +154,7 @@ const savetube = {
 
       return {
         status: 200,
-        author: "Yudzxml"
+        author: "Yudzxml",
         result: {
           title: decrypted.title || "Tidak diketahui",
           type: format === 'mp3' ? 'audio' : 'video',
