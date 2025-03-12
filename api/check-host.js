@@ -221,17 +221,17 @@ module.exports = (req, res) => {
       return res.status(400).json({ error: `Tipe tidak valid. Pilih salah satu dari: ${checkHost.types.join(', ')}` });
     }
 
-    // Validasi port jika tipe adalah udp
-    if (type === 'udp' && !port) {
-      return res.status(400).json({ error: 'Port tidak valid. Pastikan port yang diberikan untuk tipe UDP.' });
+    // Validasi port jika tipe adalah udp atau tcp
+    if ((type === 'udp' || type === 'tcp') && !port) {
+      return res.status(400).json({ error: `Port tidak valid. Pastikan port yang diberikan untuk tipe ${type}.` });
     }
 
-    // Validasi port jika tipe adalah tcp
-    if (type === 'tcp' && !port) {
-      return res.status(400).json({ error: 'Port tidak valid. Pastikan port yang diberikan untuk tipe TCP.' });
+    // Validasi tipe untuk DNS
+    if (type === 'dns' && !req.query.type) {
+      return res.status(400).json({ error: 'Tipe rekaman DNS tidak valid. Pastikan untuk menyertakan tipe rekaman (misalnya, A, AAAA, CNAME, dll.).' });
     }
 
-    checkHost.check(host, type, { port }) // Pass port as a parameter
+    checkHost.check(host, type, { port, type: req.query.type }) // Pass port and DNS type as parameters
       .then(data => res.status(200).json(data))
       .catch(err => res.status(500).json({ error: err.message }));
   } else {
