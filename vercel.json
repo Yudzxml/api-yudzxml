@@ -26,6 +26,10 @@
     {
       "src": "/api/update",
       "dest": "api/update.js"
+    },
+    {
+      "src": "/api/ytdl",
+      "dest": "api/ytdl.js"
     }
   ]
 }
