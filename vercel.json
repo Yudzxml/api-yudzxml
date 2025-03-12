@@ -30,6 +30,10 @@
     {
       "src": "/api/ytdl",
       "dest": "api/ytdl.js"
+    },
+    {
+      "src": "/api/check-host",
+      "dest": "api/check-host.js"
     }
   ]
 }
