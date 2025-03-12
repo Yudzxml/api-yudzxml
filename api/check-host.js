@@ -13,6 +13,9 @@ const checkHost = {
   },
   types: ['ping', 'http', 'tcp', 'udp', 'dns', 'info'],
 
+  // Daftar tipe rekaman DNS yang valid
+  validDnsTypes: ['A', 'AAAA', 'CNAME', 'MX', 'TXT', 'NS', 'PTR', 'SRV', 'SPF', 'SOA'],
+
   // Validasi hostname
   hostname: (host) => {
     const regex = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$|^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
@@ -160,8 +163,13 @@ const checkHost = {
     }
 
     // Validasi tipe untuk DNS
-    if (type === 'dns' && !paramek.type) {
-      return { status: false, message: 'Record type buat DNS checknya mana nih bree? Jangan bikin emosi mulu napa 🗿'};
+    if (type === 'dns' && !paramek.record) {
+      return { status: false, message: 'Record type buat DNS checknya mana nih bree? Jangan bikin emosi mulu napa 🗿' };
+    }
+
+    // Validasi tipe rekaman DNS
+    if (type === 'dns' && paramek.record && !checkHost.validDnsTypes.includes(paramek.record.toUpperCase())) {
+      return { status: false, message: `Tipe rekaman DNS tidak valid. Pilih salah satu dari: ${checkHost.validDnsTypes.join(', ')}` };
     }
 
     try {
@@ -211,7 +219,7 @@ module.exports = (req, res) => {
 
   const { method } = req;
   if (method === 'GET') {
-    const { host, type, port } = req.query; // Mengambil parameter dari query string
+    const { host, type, record, port } = req.query; // Mengambil parameter dari query string
     if (!host) {
       return res.status(400).json({ error: 'Host tidak valid. Pastikan host yang diberikan benar.' });
     }
@@ -227,11 +235,16 @@ module.exports = (req, res) => {
     }
 
     // Validasi tipe untuk DNS
-    if (type === 'dns' && !req.query.type) {
+    if (type === 'dns' && !record) {
       return res.status(400).json({ error: 'Tipe rekaman DNS tidak valid. Pastikan untuk menyertakan tipe rekaman (misalnya, A, AAAA, CNAME, dll.).' });
     }
 
-    checkHost.check(host, type, { port, type: req.query.type }) // Pass port and DNS type as parameters
+    // Validasi tipe rekaman DNS
+    if (type === 'dns' && record && !checkHost.validDnsTypes.includes(record.toUpperCase())) {
+      return res.status(400).json({ error: `Tipe rekaman DNS tidak valid. Pilih salah satu dari: ${checkHost.validDnsTypes.join(', ')}` });
+    }
+
+    checkHost.check(host, type, { port, record }) // Pass port and DNS record as parameters
       .then(data => res.status(200).json(data))
       .catch(err => res.status(500).json({ error: err.message }));
   } else {
