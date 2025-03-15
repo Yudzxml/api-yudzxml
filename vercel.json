@@ -37,12 +37,7 @@
     },
     {
       "src": "/doc",
-      "dest": "/doc/index.html"
-    },
-    {
-      "src": "/",
-      "dest": "/doc",
-      "status": 302
+      "dest": "/public/index.html"
     }
   ]
 }
