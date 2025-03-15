@@ -1,0 +1,233 @@
+* {
+  box-sizing: border-box;
+    margin: 0;
+    padding: 0; 
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    color: white;
+    position: relative;
+    overflow: auto;
+    font-size: 14px;
+}
+
+.fullscreen-video-container {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    overflow: auto;
+}
+
+.fullscreen-video-container video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: -1;
+    filter: blur(8px);
+}
+
+.container {
+    max-width: 600px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    background-image: url('https://autoresbot.com/tmp_files/ecbf77cc-011d-440f-979f-e08ce183225b.jpg');
+    background-size: contain;
+    background-position: center;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    margin: 50px 20px;
+    overflow: auto;
+    font-size: 14px;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    z-index: 1;
+}
+
+.container > * {
+    position: relative;
+    z-index: 2;
+}
+
+h1 {
+    margin-bottom: 10px;
+    font-size: 2.5em;
+    text-transform: uppercase;
+}
+
+.whatsapp-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px 0;
+    transition: background-color 0.3s;
+}
+
+.whatsapp-button:first-of-type {
+    margin-top: 30px;
+}
+
+.whatsapp-button:last-of-type {
+    margin-top: 10px;
+}
+
+.whatsapp-button:hover {
+    background-color: #007bff;
+}
+
+h2 {
+    margin-top: 40px;
+    font-size: 1.5em;
+    border-bottom: 2px solid white;
+    padding-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+th, td {
+    border: 1px solid white;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.9em;
+    background-color: transparent;
+}
+
+th {
+    color: white;
+}
+
+td {
+    color: white;
+}
+
+.audio-container {
+    display: none;
+}
+
+.copyright {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #ffffff;
+    text-align: center;
+}
+
+.notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.notification-content {
+    background-image: url('https://autoresbot.com/tmp_files/66aa9941-033e-4d49-9bb2-f66a00f70860.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+}
+
+.notification-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 15px;
+    z-index: 1;
+}
+
+.notification-content h2,
+.notification-content p {
+    position: relative;
+    z-index: 2;
+}
+
+.close-button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s, transform 0.2s;
+    position: relative;
+    z-index: 2;
+}
+
+.close-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.action-button {
+    color: white;
+    font-weight: bold;
+    font-size: 2em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    padding: 10px;
+    background-color: transparent;
+    border: none;
+}
+
+.action-button:hover {
+    color: white;
+}
+
+.action-button:active {
+    transform: scale(0.95);
+}
+
+footer {
+    margin-top: 20px;
+    text-align: center;
+    color: white;
+}
