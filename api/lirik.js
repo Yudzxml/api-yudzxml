@@ -55,7 +55,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'input judul tidak valid. Pastikan judul yang diberikan benar.' });
     }
 
-    const result = await mediaFire(query);
+    const result = await googleLyrics(query);
     if (result.error) {
       return res.status(500).json({ error: result.error });
     }
