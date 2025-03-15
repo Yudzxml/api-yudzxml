@@ -8,12 +8,41 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "api/$1"
+      "src": "/api/ytmp3",
+      "dest": "api/ytmp3.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/public/$1"
+      "src": "/api/remini",
+      "dest": "api/remini.js"
+    },
+    {
+      "src": "/api/tiktok",
+      "dest": "api/tiktok.js"
+    },
+    {
+      "src": "/api/igdl",
+      "dest": "api/igdl.js"
+    },
+    {
+      "src": "/api/update",
+      "dest": "api/update.js"
+    },
+    {
+      "src": "/api/ytdl",
+      "dest": "api/ytdl.js"
+    },
+    {
+      "src": "/api/check-host",
+      "dest": "api/check-host.js"
+    },
+    {
+      "src": "/doc",
+      "dest": "/doc/index.html"
+    },
+    {
+      "src": "/",
+      "dest": "/doc",
+      "status": 302
     }
   ]
 }
