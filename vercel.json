@@ -36,6 +36,10 @@
       "dest": "api/check-host.js"
     },
     {
+      "src": "/doc",
+      "dest": "/doc/index.html"
+    },
+    {
       "src": "/",
       "dest": "/doc",
       "status": 301
