@@ -10,7 +10,8 @@
     "qs": "^6.10.1",
     "cors": "^2.8.5",
     "node-fetch-commonjs": "^3.3.2",
-    "cheerio": "^1.0.0-rc.10"
+    "cheerio": "^1.0.0-rc.10",
+    "whatwg-mimetype": "^5.0.0"
   },
   "engines": {
     "node": "22.x"
