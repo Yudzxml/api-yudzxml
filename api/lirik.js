@@ -2,7 +2,7 @@ const cheerio = require('cheerio');
 
 async function googleLyrics(judulLagu) {
   try {
-    const response = await fetch(`https://r.jina.ai/https://www.google.com/search?q=liirk+lagu+${encodeURIComponent(judulLagu)}&hl=en`, {
+    const response = await fetch(`https://r.jina.ai/https://www.google.com/search?q=lirik+lagu+${encodeURIComponent(judulLagu)}&hl=en`, {
       headers: {
         'x-return-format': 'html',
         'x-engine': 'cf-browser-rendering',
@@ -14,10 +14,10 @@ async function googleLyrics(judulLagu) {
     const output = [];
     const result = {};
     
-    $('div.PZPZlf').each((i, e)=>{
+    $('div.PZPZlf').each((i, e) => {
       const penemu = $(e).find('div[jsname="U8S5sf"]').text().trim();
-      if(!penemu) output.push($(e).text().trim())
-    })
+      if (!penemu) output.push($(e).text().trim());
+    });
 
     $('div[jsname="U8S5sf"]').each((i, el) => {
       let out = '';
@@ -30,10 +30,10 @@ async function googleLyrics(judulLagu) {
     result.lyrics = lirik.join('\n\n');
     result.title = output.shift();
     result.subtitle = output.shift();
-    result.platform = output.filter(_=>!_.includes(':'));
-    output.forEach(_=>{
-      if (_.includes(':')){
-        const [ name, value ] = _.split(':');
+    result.platform = output.filter(_ => !_.includes(':'));
+    output.forEach(_ => {
+      if (_.includes(':')) {
+        const [name, value] = _.split(':');
         result[name.toLowerCase()] = value.trim();
       }
     });
@@ -50,7 +50,7 @@ module.exports = async (req, res) => {
   
   const { method } = req;
   if (method === 'GET') {
-    const { query } = req.query; 
+    const { query } = req; 
     if (!query) {
       return res.status(400).json({ error: 'input judul tidak valid. Pastikan judul yang diberikan benar.' });
     }
@@ -60,7 +60,7 @@ module.exports = async (req, res) => {
       return res.status(500).json({ error: result.error });
     }
 
-    return res.status(result.status).json(result);
+    return res.status(200).json(result); // Menggunakan status 200 untuk hasil yang berhasil
   } else {
     res.setHeader('Allow', ['GET']);
     res.status(405).end(`Method ${method} Not Allowed`);
