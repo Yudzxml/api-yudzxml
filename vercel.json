@@ -34,6 +34,14 @@
     {
       "src": "/api/check-host",
       "dest": "api/check-host.js"
+    },
+    {
+      "src": "/api/mediafire",
+      "dest": "api/mediafire.js"
+    },
+    {
+      "src": "/api/lirik",
+      "dest": "api/lirik.js"
     }
   ]
 }
