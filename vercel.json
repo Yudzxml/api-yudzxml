@@ -54,6 +54,10 @@
     {
       "src": "/api/fluxai",
       "dest": "api/fluxai.js"
+    },
+    {
+      "src": "/api/speechtotext",
+      "dest": "api/speechtotext.js"
     }
   ]
 }
