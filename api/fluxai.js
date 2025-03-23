@@ -45,12 +45,7 @@ async function aicreate(prompt, model) {
   try {
     const api = await axios.request(config);
     const result = api.data.html.match(/href="([^"]+)"/g).map(m => m.replace('href="', '').replace('"', ''));
-    return {
-      status: 200,
-      author: "Yudzxml",
-      data: { result
-      }
-    }
+    return result
   } catch (error) {
     console.error(error);
     throw new Error('Gagal membuat gambar');
@@ -72,8 +67,12 @@ module.exports = async (req, res) => {
 
     try {
       const images = await aicreate(prompt, model);
-      return res.status(200).json({ images });
-    } catch (error) {
+      return res.status(200).json({ 
+  status: 200,
+  author: "Yudzxml",
+  data: { images }
+});
+} catch (error) {
       return res.status(500).json({ error: error.message });
     }
   } else {
