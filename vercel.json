@@ -40,10 +40,6 @@
       "dest": "api/mediafire.js"
     },
     {
-      "src": "/api/lirik",
-      "dest": "api/lirik.js"
-    },
-    {
       "src": "/api/apk",
       "dest": "api/apk.js"
     },
