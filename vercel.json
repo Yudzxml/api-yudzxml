@@ -46,6 +46,14 @@
     {
       "src": "/api/apk",
       "dest": "api/apk.js"
+    },
+    {
+      "src": "/api/komiku",
+      "dest": "api/komiku.js"
+    },
+    {
+      "src": "/api/fluxai",
+      "dest": "api/fluxai.js"
     }
   ]
 }
