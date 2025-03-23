@@ -45,7 +45,12 @@ async function aicreate(prompt, model) {
   try {
     const api = await axios.request(config);
     const result = api.data.html.match(/href="([^"]+)"/g).map(m => m.replace('href="', '').replace('"', ''));
-    return result;
+    return {
+      status: 200,
+      author: "Yudzxml",
+      data: { result
+      }
+    }
   } catch (error) {
     console.error(error);
     throw new Error('Gagal membuat gambar');
